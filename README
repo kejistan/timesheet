@@ -1,0 +1,8 @@
+punch_in.rb [optional manual timestamp]
+When you get in to work
+
+punch_out.rb [optional manual timestamp]
+When you leave for the day
+
+gen_report.rb
+To create a report of the hours worked since you last generated. Report is in ~/timesheet_report by default.
