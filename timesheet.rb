@@ -65,12 +65,11 @@ class Timesheet
   end
 
   def parse_line(line)
-    time_and_total = line.split(' | ', 2)
-    start_and_end = time_and_total[0].split(' to ', 2)
+    start_and_end = line.split(' to ', 2)
     tokenized_line = Hash.new
     tokenized_line[:start] = Time.parse(start_and_end[0])
     unless start_and_end[1].nil? || start_and_end[1].empty? then
-      tokenized_line[:end] = Time.parse(tokenized_line[:start].strftime("%x") + ' ' + start_and_end[1])
+      tokenized_line[:end] = Time.parse(tokenized_line[:start].strftime("%Y-%m-%d") + ' ' + start_and_end[1])
     end
     return tokenized_line
   end
@@ -139,7 +138,7 @@ class WorkDay
   end
 
   def log_start
-    @start_time.strftime("%x %X")
+    @start_time.strftime("%Y-%m-%d %X")
   end
 
 end
