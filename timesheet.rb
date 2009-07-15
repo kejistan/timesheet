@@ -17,15 +17,23 @@ class Timesheet
   def start_time(defined_time)
     time_file = File.open(TIMESHEET_PATH, 'a+')
     started = Time.parse defined_time
-    @pay_period.push WorkDay.new(started)
-    time_file << "\n" + @pay_period[-1].log_start + ' to '
+    if @pay_period[-1].ended? then
+      @pay_period.push WorkDay.new(started)
+      time_file << "\n" + @pay_period[-1].log_start + ' to '
+    else
+      puts "You haven't punched out from last time yet."
+    end
   end
 
   def end_time(defined_time)
     time_file = File.open(TIMESHEET_PATH, 'a+')
     ended = Time.parse defined_time
-    @pay_period[-1].set_end ended
-    time_file << @pay_period[-1].log_end
+    unless @pay_period[-1].ended? then
+      @pay_period[-1].set_end ended
+      time_file << @pay_period[-1].log_end
+    else
+      puts "You haven't punched in yet."
+    end
   end
 
   def paid!
@@ -125,6 +133,10 @@ class WorkDay
 
   def end_time
     return @end_time
+  end
+
+  def ended?
+    return !@end_time.nil?
   end
 
   def log_day
