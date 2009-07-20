@@ -38,13 +38,13 @@ class Timesheet
 
   def paid!
     time_file = File.open(TIMESHEET_PATH, 'a+')
-    time_file << "\n"
+    time_file << "\nPAID: " + period_total(@pay_period).to_s + ' hours'
   end
 
   def period_total(period)
     total_hours = 0.0
     period.each do |day|
-      total_hours = total_hours + day.hours_worked
+      total_hours = total_hours + day.hours_worked if day.ended?
     end
     return total_hours
   end
@@ -57,7 +57,7 @@ class Timesheet
 
   def period_summary(period = @pay_period)
     period.each do |day|
-      puts day.to_s
+      puts day.to_s if day.ended?
     end
     puts "\n" + 'Total hours: ' + period_total(@pay_period).to_s + ' hours'
   end
