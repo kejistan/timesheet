@@ -65,7 +65,7 @@ class Timesheet
   def load_period(timesheet_file)
     period = Array.new
     timesheet_file.each do |line|
-      break if line.empty?
+      break if line == "\n"
       tokenized_line = parse_line(line)
       period.push(WorkDay.new(tokenized_line[:start],tokenized_line[:end]))
     end
